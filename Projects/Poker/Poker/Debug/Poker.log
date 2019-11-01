@@ -1,0 +1,5 @@
+﻿  card.cpp
+  deck.cpp
+  Poker.cpp
+  Generating Code...
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\Poker\Poker\deck.cpp(17,27): error C2512:  'CARD::CARD': no appropriate default constructor available
