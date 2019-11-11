@@ -1,0 +1,20 @@
+﻿  dealer.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.21.27702\include\memory(2041,1): error C2248:  'DECK::DECK': cannot access private member declared in class 'DECK'
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\deck.h(12): message :  see declaration of 'DECK::DECK'
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\deck.h(9): message :  see declaration of 'DECK'
+  deck.cpp
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.cpp(15): message :  see reference to function template instantiation 'std::unique_ptr<DECK,std::default_delete<_Ty>> std::make_unique<DECK,,0>(void)' being compiled
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.cpp(15): message :         with
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.cpp(15): message :         [
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.cpp(15): message :             _Ty=DECK
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.cpp(15): message :         ]
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,18): error C2065:  'DECK': undeclared identifier
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,22): error C2923:  'std::unique_ptr': 'DECK' is not a valid template type argument for parameter '_Ty'
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,22): error C2903:  'default_delete': symbol is neither a class template nor a function template
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,22): error C3203:  'default_delete': unspecialized class template can't be used as a template argument for template parameter '_Dx', expected a real type
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,24): error C2923:  'std::unique_ptr': 'DECK' is not a valid template type argument for parameter '_Ty'
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,24): error C2903:  'default_delete': symbol is neither a class template nor a function template
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,24): error C3203:  'default_delete': unspecialized class template can't be used as a template argument for template parameter '_Dx', expected a real type
+  solution.cpp
+  Generating Code...
+C:\Users\archie.buck\Perforce\L-SI-ABUCK\dev\sandboxes\archie.buck\C++\Poker\01-TheDeck\solution\solution\dealer.h(15,41): error C1903:  unable to recover from previous error(s); stopping compilation
