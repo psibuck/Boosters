@@ -1,3 +1,6 @@
-.ipch
-.obj
-.tlog
+*.ipch
+*.obj
+*.tlog
+*.log
+*.idb
+*.pdb
