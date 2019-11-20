@@ -1,0 +1,6 @@
+﻿  card_utilities.cpp
+  dealer.cpp
+  player.cpp
+  Generating Code...
+  C:\Users\archie.buck\Documents\Booster\Projects\Poker\04-TheScore\solution\solution\card_utilities.cpp(143) : warning C4715: 'card_utilities::get_hand_description': not all control paths return a value
+  solution.vcxproj -> C:\Users\archie.buck\Documents\Booster\Projects\Poker\04-TheScore\solution\Debug\solution.exe
