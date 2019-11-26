@@ -5,3 +5,6 @@
 *.idb
 *.pdb
 *.enc
+*.db
+*.suo
+*.tmp
