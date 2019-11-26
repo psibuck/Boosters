@@ -5,7 +5,6 @@
 
 #include <array>
 #include <iostream>
-#include <map>
 
 namespace card_utilities
 {
@@ -78,38 +77,7 @@ namespace card_utilities
 		}
 		std::cout << std::endl;
 
-		HAND_STRENGTH strength_out = HAND_STRENGTH::HIGH_CARD;
-// 		const bool is_straight = card_utilities::is_straight( hand_in );
-// 		const bool is_flush = card_utilities::is_flush( hand_in );
-// 		if ( is_flush && is_straight )
-// 		{
-// 			if ( hand_in.begin()->get()->get_value() == 10 )
-// 			{
-// 				strength_out = HAND_STRENGTH::ROYAL_FLUSH;
-// 			}
-// 			else
-// 			{
-// 				strength_out = HAND_STRENGTH::STRAIGHT_FLUSH;
-// 			}
-// 		}
-		// else if is four of a king
-		// else if is full house
-// 		else if ( is_flush )
-// 		{
-// 			strength_out = HAND_STRENGTH::FLUSH;
-// 		}
-// 		else if ( is_straight )
-// 		{
-// 			strength_out = HAND_STRENGTH::STRAIGHT;
-// 		}
-		// else if three of a kind
-		// else if two pair
-		if ( has_pair( hand_in ) )
-		{
-			strength_out = HAND_STRENGTH::PAIR;
-		}
-
-		return get_hand_description( strength_out );
+		return get_hand_description( get_hand_strength( hand_in ) );
 	}
 
 	// --------------------------------------------------------------------------
@@ -142,6 +110,70 @@ namespace card_utilities
 		}
 	}
 
+	// --------------------------------------------------------------------------
+	//! Calculates the strength of a given hand
+	// --------------------------------------------------------------------------
+	HAND_STRENGTH get_hand_strength( const PLAYER_HAND& hand_in )
+	{
+		HAND_STRENGTH strength_out = HAND_STRENGTH::HIGH_CARD;
+
+		std::map<int, int> card_count;
+		count_cards( hand_in, card_count );
+
+		const auto num_groups = card_count.size();
+		switch ( num_groups )
+		{
+		case 2:
+			if ( card_count.begin()->second == 1 || card_count.begin()->second == 4 )
+			{
+				strength_out = HAND_STRENGTH::FOUR_OF_A_KIND;
+			}
+			else
+			{
+				strength_out = HAND_STRENGTH::FULL_HOUSE;
+			}
+			break;
+		case 3:
+			strength_out = HAND_STRENGTH::TWO_PAIR;
+			for ( const auto& entry : card_count )
+			{
+				if ( entry.second == 3 )
+				{
+					strength_out = HAND_STRENGTH::THREE_OF_A_KIND;
+					break;
+				}
+			}
+			break;
+		case 4:
+			strength_out = HAND_STRENGTH::PAIR;
+			break;
+		case 5:
+			{
+				const bool straight = is_straight( hand_in );
+				const bool flush = is_flush( hand_in );
+				if ( flush )
+				{
+					strength_out = HAND_STRENGTH::FLUSH;
+					if ( straight )
+					{
+						strength_out = HAND_STRENGTH::STRAIGHT_FLUSH;
+						if ( hand_in.at( 0 )->get_value() == 10 )
+						{
+							strength_out = HAND_STRENGTH::ROYAL_FLUSH;
+						}
+					}
+				}
+				else if ( straight )
+				{
+					strength_out = HAND_STRENGTH::STRAIGHT;
+				}
+			}
+		default:
+			break;
+		}
+		return strength_out;
+	}
+
 	void print_card_info( const CARD* card )
 	{
 		std::cout << get_card_value_string( card->get_value() ) << get_name_of_suit( card->get_suit() ) << std::endl;
@@ -150,52 +182,102 @@ namespace card_utilities
 	// --------------------------------------------------------------------------
 	//! Loops through the hands and checks if we have a straight
 	// --------------------------------------------------------------------------
-// 	bool is_straight( const PLAYER_HAND& hand_in  [[maybe_unused]] )
-// 	{
-// 		return false;
-// 	}
+ 	bool is_straight( const PLAYER_HAND& hand_in )
+ 	{
+		int count = hand_in.at( 0 )->get_value();
+		for ( int i = 1; i < HAND_SIZE; ++i )
+		{
+			if ( hand_in.at( i )->get_value() != ++count )
+			{
+				return false;
+			}
+		}
+		return true;
+ 	}
 
 	// --------------------------------------------------------------------------
 	//! Loops through the hand and checks if all cards are the same suit
 	// --------------------------------------------------------------------------
-// 	bool is_flush( const PLAYER_HAND& hand_in )
-// 	{
-// 		const SUIT suit_to_check = hand_in.at( 0 )->get_suit();
-// 		for ( int i = 1; i < hand_in.size(); ++i )
-// 		{
-// 			if ( hand_in.at( i )->get_suit() != suit_to_check )
-// 			{
-// 				return false;
-// 			}
-// 		}
-// 		return true;
-// 	}
+	bool is_flush( const PLAYER_HAND& hand_in )
+	{
+		const SUIT suit_to_check = hand_in.at( 0 )->get_suit();
+		for ( int i = 1; i < HAND_SIZE; ++i )
+		{
+			if ( hand_in.at( i )->get_suit() != suit_to_check )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
 	// --------------------------------------------------------------------------
 	//! Returns true if the hand provided has a pair
 	// --------------------------------------------------------------------------
-	bool has_pair( const PLAYER_HAND& hand_in )
+	void count_cards( const PLAYER_HAND& hand_in, std::map<int, int>& cards_count )
 	{
-		std::map<int, int> found_cards;
 		for ( const auto& card : hand_in )
 		{
-			auto entry = found_cards.find( card->get_value() );
-			if ( entry != found_cards.end() )
+			auto entry = cards_count.find( card->get_value() );
+			if ( entry != cards_count.end() )
 			{
 				entry->second++;
 			}
 			else
 			{
-				found_cards[card->get_value()] = 1;
+				cards_count[card->get_value()] = 1;
 			}
 		}
-		for ( auto entry : found_cards )
+	}
+	bool run_card_test()
+	{
+		auto run_test = []( const HAND_STRENGTH expected_result, const PLAYER_HAND& hand ) -> bool
 		{
-			if ( entry.second > 1 )
-			{
-				return true;
-			}
-		}
-		return false;
+			const bool pass = expected_result == get_hand_strength( hand );
+			std::cout << (pass ? "Test Passed!" : "Test Failed");
+			std::cout << std::endl;
+			return pass;
+		};
+		const PLAYER_HAND high_card = { std::make_unique<CARD>( SUIT::HEART, 1 ), std::make_unique<CARD>( SUIT::CLUB, 3 ),
+										std::make_unique<CARD>( SUIT::SPADE, 4 ), std::make_unique<CARD>( SUIT::DIAMOND, 10 ), std::make_unique<CARD>( SUIT::CLUB, 13 ) };
+		bool passed = run_test( HAND_STRENGTH::HIGH_CARD, high_card );
+
+		const PLAYER_HAND pair = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::SPADE, 1 ),
+										std::make_unique<CARD>( SUIT::CLUB, 3 ), std::make_unique<CARD>( SUIT::CLUB, 4 ), std::make_unique<CARD>( SUIT::CLUB, 8 ) };
+		passed = run_test( HAND_STRENGTH::PAIR, pair );
+
+		const PLAYER_HAND two_pair = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::SPADE, 1 ),
+										std::make_unique<CARD>( SUIT::CLUB, 3 ), std::make_unique<CARD>( SUIT::CLUB, 3 ), std::make_unique<CARD>( SUIT::CLUB, 8 ) };
+		passed = run_test( HAND_STRENGTH::TWO_PAIR, two_pair );
+
+		const PLAYER_HAND three_of_a_kind = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::SPADE, 1 ),
+								std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::CLUB, 3 ), std::make_unique<CARD>( SUIT::CLUB, 8 ) };
+		passed = run_test( HAND_STRENGTH::THREE_OF_A_KIND, three_of_a_kind );
+
+		const PLAYER_HAND straight = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::SPADE, 2 ),
+						std::make_unique<CARD>( SUIT::CLUB, 3 ), std::make_unique<CARD>( SUIT::CLUB, 4 ), std::make_unique<CARD>( SUIT::CLUB, 5 ) };
+		passed = run_test( HAND_STRENGTH::STRAIGHT, straight );
+
+		const PLAYER_HAND flush = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::CLUB, 3 ),
+						std::make_unique<CARD>( SUIT::CLUB, 4 ), std::make_unique<CARD>( SUIT::CLUB, 5 ), std::make_unique<CARD>( SUIT::CLUB, 8 ) };
+		passed = run_test( HAND_STRENGTH::FLUSH, flush );
+
+		const PLAYER_HAND full_house = { std::make_unique<CARD>( SUIT::SPADE, 1 ), std::make_unique<CARD>( SUIT::CLUB, 1 ),
+				std::make_unique<CARD>( SUIT::HEART, 1 ), std::make_unique<CARD>( SUIT::HEART, 2 ), std::make_unique<CARD>( SUIT::DIAMOND, 2 ) };
+		passed = run_test( HAND_STRENGTH::FULL_HOUSE, full_house );
+
+		const PLAYER_HAND four_of_a_kind = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::SPADE, 1 ),
+						std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::CLUB, 8 ) };
+		passed = run_test( HAND_STRENGTH::FOUR_OF_A_KIND, four_of_a_kind );
+
+		const PLAYER_HAND straight_flush = { std::make_unique<CARD>( SUIT::CLUB, 1 ), std::make_unique<CARD>( SUIT::CLUB, 2 ),
+				std::make_unique<CARD>( SUIT::CLUB, 3 ), std::make_unique<CARD>( SUIT::CLUB, 4 ), std::make_unique<CARD>( SUIT::CLUB, 5 ) };
+		passed = run_test( HAND_STRENGTH::STRAIGHT_FLUSH, straight_flush );
+
+		const PLAYER_HAND royal_flush = { std::make_unique<CARD>( SUIT::CLUB, 10 ), std::make_unique<CARD>( SUIT::CLUB, 11 ),
+				std::make_unique<CARD>( SUIT::CLUB, 12 ), std::make_unique<CARD>( SUIT::CLUB, 13 ), std::make_unique<CARD>( SUIT::CLUB, 14 ) };
+		passed = run_test( HAND_STRENGTH::ROYAL_FLUSH, royal_flush );
+
+		return passed;
 	}
 }

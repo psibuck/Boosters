@@ -7,10 +7,10 @@ class CARD;
 // --------------------------------------------------------------------------
 //! Constants
 // --------------------------------------------------------------------------
-constexpr int hand_size{ 5 };
+constexpr int HAND_SIZE{ 5 };
 constexpr int DECK_SIZE{ 52 };
 
-typedef std::array<std::unique_ptr<CARD>, hand_size> PLAYER_HAND;
+typedef std::array<std::unique_ptr<CARD>, HAND_SIZE> PLAYER_HAND;
 
 enum class SUIT : int
 {

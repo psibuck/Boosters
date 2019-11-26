@@ -1,6 +1,7 @@
 #pragma once
 
 #include "poker_defs.h"
+#include <map>
 #include <string>
 
 namespace card_utilities
@@ -9,9 +10,11 @@ namespace card_utilities
 	std::string get_card_value_string( int value );
 	std::string calculate_hand_description( const PLAYER_HAND& hand_in );
 	std::string get_hand_description( const HAND_STRENGTH strength_in );
+	HAND_STRENGTH get_hand_strength( const PLAYER_HAND& hand_in );
 	void print_card_info( const CARD* card );
+	void count_cards( const PLAYER_HAND& hand_in, std::map<int, int>& cards_count );
 
-	//bool is_straight( const PLAYER_HAND& hand_in );
-	//bool is_flush( const PLAYER_HAND& hand_in );
-	bool has_pair( const PLAYER_HAND& hand_in );
+	bool is_straight( const PLAYER_HAND& hand_in );
+	bool is_flush( const PLAYER_HAND& hand_in );
+	bool run_card_test();
 }

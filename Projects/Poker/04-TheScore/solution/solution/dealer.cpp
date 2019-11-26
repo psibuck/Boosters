@@ -41,7 +41,7 @@ void DEALER::deal_hand( std::vector<std::unique_ptr<PLAYER>>& players )
 	discard( m_deck->draw() );
 
 	const int num_of_players = players.size();
-	for ( auto ite = 0; ite < num_of_players * hand_size; ite++ )
+	for ( auto ite = 0; ite < num_of_players * HAND_SIZE; ite++ )
 	{
 		auto player = players.at( ite % num_of_players ).get();
 		player->deal( m_deck->draw() );
@@ -53,10 +53,35 @@ void DEALER::deal_hand( std::vector<std::unique_ptr<PLAYER>>& players )
 // --------------------------------------------------------------------------
 void DEALER::score_hand( const std::vector<std::unique_ptr<PLAYER>>& players ) const
 {
+	HAND_STRENGTH best_hand = HAND_STRENGTH::HIGH_CARD;
+	PLAYER* winner = nullptr;
+	bool split = false;
 	for ( auto player_ite = players.begin(); player_ite != players.end(); ++player_ite )
 	{
-		PLAYER* player = player_ite->get();
-		std::cout << player->get_name() << " has " << card_utilities::calculate_hand_description( player->get_hand() ) << std::endl;
+		const PLAYER* player = player_ite->get();
+		const PLAYER_HAND& player_hand = player->get_hand();
+		const HAND_STRENGTH player_hand_strength = card_utilities::get_hand_strength( player_hand );
+		std::cout << player->get_name() << ": ";
+		card_utilities::calculate_hand_description( player_hand );
+		if ( player_hand_strength > best_hand )
+		{
+			winner = player_ite->get();
+			best_hand = player_hand_strength;
+			split = false;
+		}
+		else if ( winner && player_hand_strength == best_hand )
+		{
+			split = true;
+		}
+	}
+
+	if ( split )
+	{
+		std::cout << "Split Pot!: " << card_utilities::get_hand_description( best_hand ) << std::endl;
+	}
+	else if ( winner )
+	{
+		std::cout << std::endl << winner->get_name() << " wins with " << card_utilities::calculate_hand_description( winner->get_hand() ) << std::endl;
 	}
 }
 

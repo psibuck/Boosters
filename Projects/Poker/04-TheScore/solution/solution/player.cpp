@@ -33,7 +33,7 @@ void PLAYER::add_chips( const int chips )
 bool PLAYER::deal( std::unique_ptr<CARD>&& card )
 {
 	bool dealt{ false };
-	for ( auto ite = 0; ite < hand_size && !dealt; ite++ )
+	for ( auto ite = 0; ite < HAND_SIZE && !dealt; ite++ )
 	{
 		if ( m_hand[ite] == nullptr )
 		{
@@ -71,7 +71,7 @@ std::string PLAYER::get_name() const
 // --------------------------------------------------------------------------
 //! Returns the players hand
 // --------------------------------------------------------------------------
-const std::array<std::unique_ptr<CARD>, hand_size>& PLAYER::get_hand() const
+const PLAYER_HAND& PLAYER::get_hand() const
 {
 	return m_hand;
 }
