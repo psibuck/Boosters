@@ -12,9 +12,8 @@ namespace card_utilities
 	std::string get_hand_description( const HAND_STRENGTH strength_in );
 	HAND_STRENGTH get_hand_strength( const PLAYER_HAND& hand_in );
 	void print_card_info( const CARD* card );
-	void count_cards( const PLAYER_HAND& hand_in, std::map<int, int>& cards_count );
+	void analyse_cards( const PLAYER_HAND& hand_in, std::map<int, int>& cards_count, bool is_straight, bool is_flush );
 
 	bool is_straight( const PLAYER_HAND& hand_in );
 	bool is_flush( const PLAYER_HAND& hand_in );
-	bool run_card_test();
 }

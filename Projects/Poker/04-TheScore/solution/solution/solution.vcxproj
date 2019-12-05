@@ -157,14 +157,17 @@
     <ClCompile Include="deck.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="solution.cpp" />
+    <ClCompile Include="tests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app_settings.h" />
     <ClInclude Include="card.h" />
     <ClInclude Include="card_utilities.h" />
     <ClInclude Include="dealer.h" />
     <ClInclude Include="deck.h" />
     <ClInclude Include="poker_defs.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="tests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

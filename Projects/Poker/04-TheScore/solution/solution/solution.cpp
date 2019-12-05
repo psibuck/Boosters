@@ -1,17 +1,23 @@
+#include "app_settings.h"
 #include "card.h"
 #include "card_utilities.h"
 #include "deck.h"
 #include "dealer.h"
 #include "player.h"
+#include "tests.h"
 
 #include <iostream>
 #include <memory>
 #include <string.h>
 #include <vector>
 
+
+
 int main()
 {
-	if ( card_utilities::run_card_test() )
+#if TESTS_ENABLED
+	if( tests::run_card_scoring_test() )
+#endif // TESTS_ENABLED
 	{
 		std::vector<std::unique_ptr<PLAYER>> players;
 		players.emplace_back( new PLAYER( "Archie" ) );
