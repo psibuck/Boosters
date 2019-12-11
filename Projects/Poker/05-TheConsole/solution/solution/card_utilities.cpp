@@ -108,6 +108,8 @@ namespace card_utilities
 			return "Straight Flush";
 		case HAND_STRENGTH::ROYAL_FLUSH:
 			return "Royal Flush";
+		default:
+			return "High Card";
 		}
 	}
 
@@ -225,6 +227,8 @@ namespace card_utilities
 		case SUIT::SPADE:
 			return colour::GREEN;
 		case SUIT::HEART:
+			return colour::RED;
+		default:
 			return colour::RED;
 		}
 	}

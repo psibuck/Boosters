@@ -64,11 +64,7 @@ void DEALER::score_hand( const std::vector<std::unique_ptr<PLAYER>>& players ) c
 		const PLAYER_HAND& player_hand = player->get_hand();
 		const HAND_STRENGTH player_hand_strength = card_utilities::get_hand_strength( player_hand );
 		
-		HANDLE hstdout = GetStdHandle( (DWORD)-11 );
-		SetConsoleTextAttribute( hstdout, player->get_colour() );
-
-		std::cout << player->get_name() << ": ";
-		card_utilities::calculate_hand_description( player_hand );
+		player->print();
 		if ( player_hand_strength > best_hand )
 		{
 			winner = player_ite->get();

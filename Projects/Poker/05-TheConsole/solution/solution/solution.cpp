@@ -1,3 +1,4 @@
+#include "app_settings.h"
 #include "card.h"
 #include "card_utilities.h"
 #include "colours.h"
@@ -13,25 +14,15 @@
 
 int main()
 {
-	HANDLE hstdout = GetStdHandle( (DWORD)-11 );
-
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo( hstdout, &csbi );
-
-	std::cout << "Normal";
-	SetConsoleTextAttribute( hstdout, colour::BLUE );
-	std::cout << "coloured" << std::endl;
-
-	SetConsoleTextAttribute( hstdout, csbi.wAttributes );
-
-
+#if TESTS_ENABLED
 	if ( card_utilities::run_card_test() )
+#endif // DEBUG
 	{
 		std::vector<std::unique_ptr<PLAYER>> players;
 		players.emplace_back( new PLAYER( "Archie", colour::GREEN ) );
-		players.emplace_back( new PLAYER( "Sam", colour::BLUE ) );
-		players.emplace_back( new PLAYER( "Stu", colour::GOLD ) );
-		players.emplace_back( new PLAYER( "Miles", colour::ORANGE ) );
+		players.emplace_back( new PLAYER( "Sam", colour::CYAN ) );
+		players.emplace_back( new PLAYER( "Stu", colour::RED ) );
+		players.emplace_back( new PLAYER( "Miles", colour::YELLOW ) );
 
 		DEALER* dealer = new DEALER();
 		while ( true )

@@ -11,7 +11,7 @@ public:
 	int get_value() const;
 
 private:
-	virtual void write_to_console() final;
+	virtual void write_to_console() const final;
 
 	SUIT m_suit;
 	int m_value;

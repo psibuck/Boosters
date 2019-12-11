@@ -161,6 +161,7 @@
     <ClCompile Include="solution.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app_settings.h" />
     <ClInclude Include="card.h" />
     <ClInclude Include="card_utilities.h" />
     <ClInclude Include="dealer.h" />

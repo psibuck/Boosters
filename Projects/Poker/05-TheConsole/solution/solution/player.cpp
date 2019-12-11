@@ -79,7 +79,7 @@ const PLAYER_HAND& PLAYER::get_hand() const
 // --------------------------------------------------------------------------
 //! Writes player information to the console
 // --------------------------------------------------------------------------
-void PLAYER::write_to_console()
+void PLAYER::write_to_console() const
 {
 	std::cout << m_name << ": ";
 	for ( const auto& card : m_hand )

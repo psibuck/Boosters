@@ -10,15 +10,11 @@ public:
 
 	int get_colour() const;
 
-	virtual void print();
-
-	static void store_default_settings();
+	virtual void print() const;
 
 private:
-	virtual void write_to_console() = 0;
+	virtual void write_to_console() const = 0;
 
 	int m_colour;
-
-	inline static CONSOLE_SCREEN_BUFFER_INFO s_default_settings;
 };
 

@@ -32,7 +32,7 @@ int CARD::get_value() const
 // --------------------------------------------------------------------------
 //! Writes card info to the console
 // --------------------------------------------------------------------------
-void CARD::write_to_console()
+void CARD::write_to_console() const
 {
 	std::cout << " " <<  card_utilities::get_card_value_string( get_value() ) << card_utilities::get_name_of_suit( get_suit() ) << " ";
 }

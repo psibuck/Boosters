@@ -20,7 +20,7 @@ int PRINTABLE_OBJECT::get_colour() const
 // --------------------------------------------------------------------------
 //! Sets the settings for the console, writes the object and resets settings
 // --------------------------------------------------------------------------
-void PRINTABLE_OBJECT::print()
+void PRINTABLE_OBJECT::print() const
 {
 	//! Sets the settings of the console
 	HANDLE hstdout = GetStdHandle( (DWORD)-11 );
@@ -28,16 +28,5 @@ void PRINTABLE_OBJECT::print()
 
 	//! Writes to the console
 	write_to_console();
-
-	//! Resets the console settings
-	SetConsoleTextAttribute( hstdout, s_default_settings.wAttributes );
 }
 
-// --------------------------------------------------------------------------
-//! Static function: called to get default console props
-// --------------------------------------------------------------------------
-void PRINTABLE_OBJECT::store_default_settings()
-{
-	HANDLE hstdout = GetStdHandle( (DWORD)-11 );
-	GetConsoleScreenBufferInfo( hstdout, &s_default_settings );
-}

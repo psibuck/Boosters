@@ -22,7 +22,7 @@ public:
 	const PLAYER_HAND& get_hand() const;
 
 private:
-	virtual void write_to_console() final;
+	virtual void write_to_console() const final;
 
 	std::string m_name;
 	PLAYER_HAND m_hand;
